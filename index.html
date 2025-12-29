@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>台南散策 2026</title>
+    <title>2026 台南散策</title>
     
-    <!-- iOS PWA 設定：讓網頁更像原生 App -->
+    <!-- iOS PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="台南散策">
-    <!-- 下方可替換成你喜歡的 App 圖示連結 -->
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/854/854878.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,7 +17,6 @@
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #f8f9fa;
-            /* 支援 iOS 安全區域，防止內容被下方手勢條遮住 */
             padding-bottom: calc(env(safe-area-inset-bottom) + 80px);
             -webkit-tap-highlight-color: transparent;
         }
@@ -50,30 +48,28 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* 側滑/彈出動畫優化 */
         #billing-overlay {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateY(100%);
+            display: flex;
+            flex-direction: column;
         }
         #billing-overlay.active {
             transform: translateY(0%);
         }
-
         .fab-press:active { transform: scale(0.9); transition: 0.1s; }
-        
-        /* 防止 iOS 彈性捲動導致背景跑掉 */
         html, body { overflow-x: hidden; }
     </style>
 </head>
 <body class="text-gray-800">
 
-    <!-- Header (適配 iOS 狀態欄) -->
+    <!-- Header -->
     <header class="bg-orange-700 text-white pt-[calc(env(safe-area-inset-top)+20px)] pb-6 px-6 shadow-md text-center">
         <h1 class="text-xl font-bold">台南元旦散策 1/1</h1>
-        <div id="user-display" class="text-[10px] opacity-80 mt-1">連線中...</div>
+        <div id="user-display" class="text-[10px] opacity-80 mt-1">正在初始化...</div>
     </header>
 
-    <!-- 天氣區塊 (06:00 - 24:00) -->
+    <!-- 天氣區塊 -->
     <section class="mt-4 px-4">
         <div class="weather-card rounded-2xl p-5 text-white shadow-lg min-h-[160px]">
             <div class="flex justify-between items-end mb-4">
@@ -87,17 +83,18 @@
                 </div>
             </div>
             <div id="hourly-container" class="flex overflow-x-auto gap-3 hide-scrollbar pb-1">
-                <p class="text-xs opacity-70 py-4">載入即時天氣...</p>
+                <p class="text-xs opacity-70 py-4">正在載入氣象資料...</p>
             </div>
         </div>
     </section>
 
-    <!-- 行程路線 (完整內容) -->
+    <!-- 行程路線圖 -->
     <main class="container mx-auto px-4 mt-6">
-        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-10 border border-gray-100">
             <h2 class="text-lg font-bold mb-8 flex items-center text-orange-800 border-b pb-4">
                 <span class="mr-2 text-xl">🚶</span> 散策路線圖
             </h2>
+            
             <div class="relative timeline-line ml-3 text-sm">
                 <!-- 08:47 抵達 -->
                 <div class="relative pl-10 mb-8">
@@ -106,7 +103,6 @@
                     <h3 class="font-bold">抵達台南火車站</h3>
                     <a href="https://www.google.com/maps/search/?api=1&query=台南火車站" target="_blank" class="map-link">📍 導航車站</a>
                 </div>
-                <!-- 步行 1 -->
                 <div class="relative pl-10 mb-8 opacity-60">
                     <div class="absolute left-1 top-2 w-4 h-4 bg-gray-200 rounded-full"></div>
                     <span class="text-xs font-bold text-gray-500">08:50 - 09:05</span>
@@ -117,56 +113,15 @@
                     <div class="absolute left-0 top-1 w-6 h-6 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-green-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-green-600">09:05 - 10:30</span>
                     <h3 class="font-bold">吳園 & 公會堂</h3>
-                    <a href="https://www.google.com/maps/search/?api=1&query=台南吳園" target="_blank" class="map-link">📍 導航吳園</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=台南吳園藝文中心" target="_blank" class="map-link">📍 導航吳園</a>
                 </div>
-                <!-- 步行 2 -->
-                <div class="relative pl-10 mb-8 opacity-60">
-                    <div class="absolute left-1 top-2 w-4 h-4 bg-gray-200 rounded-full"></div>
-                    <span class="text-xs font-bold text-gray-500">10:30 - 10:45</span>
-                    <p class="text-xs italic">步行至湯德章紀念公園 (15 min)</p>
-                </div>
-                <!-- 測候所 -->
-                <div class="relative pl-10 mb-8">
-                    <div class="absolute left-0 top-1 w-6 h-6 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-green-600 rounded-full"></div></div>
-                    <span class="text-xs font-bold text-green-600">10:45 - 11:45</span>
-                    <h3 class="font-bold">舊古蹟群 (測候所)</h3>
-                    <a href="https://www.google.com/maps/search/?api=1&query=台南測候所" target="_blank" class="map-link">📍 導航測候所</a>
-                </div>
-                <!-- 12:15 Musa -->
+                <!-- Musa -->
                 <div class="relative pl-10 mb-8">
                     <div class="absolute left-0 top-1 w-6 h-6 bg-red-100 border-2 border-red-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-red-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-red-600">12:15 - 13:30</span>
                     <h3 class="font-bold text-red-700">Musa 泰國料理 (午餐)</h3>
                     <a href="https://www.google.com/maps/search/?api=1&query=Musa泰國料理" target="_blank" class="map-link">📍 導航 Musa</a>
                 </div>
-                <!-- 步行 4 -->
-                <div class="relative pl-10 mb-8 opacity-60">
-                    <div class="absolute left-1 top-2 w-4 h-4 bg-gray-200 rounded-full"></div>
-                    <span class="text-xs font-bold text-gray-500">13:30 - 13:45</span>
-                    <p class="text-xs italic">步行前往西市場 (15 min)</p>
-                </div>
-                <!-- 西市場 -->
-                <div class="relative pl-10 mb-8">
-                    <div class="absolute left-0 top-1 w-6 h-6 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-blue-600 rounded-full"></div></div>
-                    <span class="text-xs font-bold text-blue-600">13:45 - 14:20</span>
-                    <h3 class="font-bold">西市場 (大菜市)</h3>
-                    <a href="https://www.google.com/maps/search/?api=1&query=台南西市場" target="_blank" class="map-link">📍 導航西市場</a>
-                </div>
-                <!-- 國華街 -->
-                <div class="relative pl-10 mb-8">
-                    <div class="absolute left-0 top-1 w-6 h-6 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-green-600 rounded-full"></div></div>
-                    <span class="text-xs font-bold text-green-600">14:25 - 16:00</span>
-                    <h3 class="font-bold">國華街美食探索</h3>
-                    <a href="https://www.google.com/maps/search/?api=1&query=國華街美食" target="_blank" class="map-link">📍 導航國華街</a>
-                </div>
-                <!-- 美術館 -->
-                <div class="relative pl-10 mb-8">
-                    <div class="absolute left-0 top-1 w-6 h-6 bg-purple-100 border-2 border-purple-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-purple-600 rounded-full"></div></div>
-                    <span class="text-xs font-bold text-purple-600">16:15 - 17:15</span>
-                    <h3 class="font-bold">蝸牛巷 & 美術館 2 館</h3>
-                    <a href="https://www.google.com/maps/search/?api=1&query=台南美術館2館" target="_blank" class="map-link">📍 導航美館2館</a>
-                </div>
-                <!-- 19:15 返回 -->
                 <div class="relative pl-10">
                     <div class="absolute left-0 top-1 w-6 h-6 bg-gray-100 border-2 border-gray-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-gray-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-gray-600">19:15</span>
@@ -177,132 +132,127 @@
     </main>
 
     <!-- 分帳浮球 -->
-    <button onclick="toggleBilling(true)" class="fixed bottom-8 right-6 z-50 w-16 h-16 bg-orange-600 text-white rounded-full shadow-2xl flex flex-col items-center justify-center fab-press">
+    <button id="fab-trigger" class="fixed bottom-8 right-6 z-50 w-16 h-16 bg-orange-600 text-white rounded-full shadow-2xl flex flex-col items-center justify-center fab-press">
         <span class="text-2xl">💰</span>
         <span class="text-[10px] font-bold">分帳</span>
     </button>
 
-    <!-- 分帳全螢幕介面 (PWA 優化) -->
-    <div id="billing-overlay" class="fixed inset-0 z-[60] bg-gray-50 flex flex-col hidden overflow-y-auto">
+    <!-- 分帳介面 -->
+    <div id="billing-overlay" class="fixed inset-0 z-[60] bg-gray-50 hidden overflow-y-auto">
         <header class="bg-white border-b pt-[calc(env(safe-area-inset-top)+10px)] pb-4 px-5 flex justify-between items-center sticky top-0 z-10">
             <h2 class="font-bold text-lg text-orange-700">三人分帳系統</h2>
-            <button onclick="toggleBilling(false)" class="text-gray-400 text-2xl p-2">✕</button>
+            <button id="close-billing" class="text-gray-400 text-2xl p-2">✕</button>
         </header>
 
-        <div class="flex-1 p-4">
-            <!-- 數據總覽 -->
+        <div class="p-4 pb-24">
             <div class="grid grid-cols-2 gap-4 mb-6">
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                    <p class="text-[10px] text-gray-400 font-bold">總支出</p>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase">總支出</p>
                     <p id="total-amount" class="text-xl font-bold text-gray-800">$0</p>
                 </div>
                 <div class="bg-orange-50 p-4 rounded-2xl shadow-sm border border-orange-100">
-                    <p class="text-[10px] text-orange-600 font-bold">每人均分</p>
+                    <p class="text-[10px] text-orange-600 font-bold uppercase">每人平均</p>
                     <p id="average-amount" class="text-xl font-bold text-orange-700">$0</p>
                 </div>
             </div>
 
-            <!-- 核心清算清單 (誰給誰錢) -->
             <div class="bg-white rounded-2xl shadow-md p-5 mb-6 border-t-4 border-orange-500">
-                <h3 class="text-sm font-bold mb-4 flex items-center text-gray-700">
-                    <span class="mr-2">🔄</span> 實時轉帳清單
-                </h3>
-                <div id="transfer-list" class="space-y-3">
-                    <p class="text-[11px] text-gray-400 italic">正在計算帳目...</p>
-                </div>
+                <h3 class="text-sm font-bold mb-4 text-gray-700">🔄 轉帳指令</h3>
+                <div id="transfer-list" class="space-y-3"></div>
             </div>
 
-            <!-- 收支狀態 -->
-            <div class="bg-white rounded-2xl shadow-sm border p-5 mb-6">
-                <h3 class="text-xs font-bold mb-4 text-gray-400 uppercase tracking-widest">個人餘額狀態</h3>
-                <div id="balance-list" class="space-y-3"></div>
-            </div>
-
-            <!-- 支出明細 -->
             <div class="bg-white rounded-2xl shadow-sm border p-5">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-sm font-bold text-gray-700">支出明細紀錄</h3>
-                    <button onclick="openExpenseModal()" class="text-xs bg-orange-600 text-white px-4 py-2 rounded-full font-bold shadow-sm">+ 新增</button>
+                    <h3 class="text-sm font-bold text-gray-700">支出明細</h3>
+                    <button id="add-expense-btn" class="text-xs bg-orange-600 text-white px-4 py-2 rounded-full font-bold">+ 新增</button>
                 </div>
                 <div id="expense-list" class="space-y-4"></div>
             </div>
         </div>
     </div>
 
-    <!-- 選擇身分彈窗 -->
-    <div id="name-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm px-6 hidden">
+    <!-- 身分選擇 -->
+    <div id="name-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 backdrop-blur-sm px-6 hidden">
         <div class="bg-white w-full max-w-sm rounded-3xl p-8 shadow-2xl text-center">
-            <h3 class="text-xl font-bold mb-2 text-gray-800">你是哪位帥哥？</h3>
-            <p class="text-xs text-gray-400 mb-8">選擇後即可開啟雲端同步分帳功能</p>
-            <div class="flex flex-col gap-4">
-                <button onclick="joinSession('昱辰')" class="w-full bg-orange-50 text-orange-700 font-bold py-5 rounded-2xl active:bg-orange-600 active:text-white transition-all shadow-sm">昱辰</button>
-                <button onclick="joinSession('偉哲')" class="w-full bg-orange-50 text-orange-700 font-bold py-5 rounded-2xl active:bg-orange-600 active:text-white transition-all shadow-sm">偉哲</button>
-                <button onclick="joinSession('宸瑋')" class="w-full bg-orange-50 text-orange-700 font-bold py-5 rounded-2xl active:bg-orange-600 active:text-white transition-all shadow-sm">宸瑋</button>
+            <h3 class="text-xl font-bold mb-2">你是誰？</h3>
+            <p class="text-xs text-gray-400 mb-8">選擇後即可同步帳目</p>
+            <div id="name-options" class="flex flex-col gap-4">
+                <!-- 按鈕會由 JS 生成以確保連線 -->
             </div>
         </div>
     </div>
 
-    <!-- 新增支出彈窗 -->
+    <!-- 新增支出 -->
     <div id="expense-modal" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 px-6 hidden">
         <div class="bg-white w-full max-w-sm rounded-3xl p-8 shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-bold">新增支出項目</h3>
-                <button onclick="closeExpenseModal()" class="text-gray-300 p-2">✕</button>
-            </div>
+            <div class="flex justify-between items-center mb-6"><h3 class="text-lg font-bold">新增支出</h3><button id="close-expense" class="text-gray-300 p-2">✕</button></div>
             <div class="space-y-5">
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase block mb-1">支出內容</label>
-                    <input type="text" id="exp-title" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 outline-none focus:border-orange-500" placeholder="例如：台鐵票">
-                </div>
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase block mb-1">總金額 (TWD)</label>
-                    <input type="number" id="exp-amount" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 outline-none focus:border-orange-500" placeholder="0">
-                </div>
-                <button onclick="submitExpense()" class="w-full bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg mt-2 fab-press">儲存並同步</button>
+                <input type="text" id="exp-title" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 outline-none" placeholder="支出內容">
+                <input type="number" id="exp-amount" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 outline-none" placeholder="金額">
+                <button id="submit-expense" class="w-full bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg mt-2 fab-press">儲存並同步</button>
             </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // ==========================================
-        // 重要：如果你在 GitHub 上執行，請在下方填入你的 Firebase 配置
-        // ==========================================
-        let firebaseConfig = {
-            apiKey: "",
-            authDomain: "",
-            projectId: "",
-            storageBucket: "",
-            messagingSenderId: "",
-            appId: ""
+        const firebaseConfig = {
+            apiKey: "AIzaSyC0e7dvRxY4PAnxD1DbnA5qtBhuRvkwbYE",
+            authDomain: "tainan-57cdc.firebaseapp.com",
+            projectId: "tainan-57cdc",
+            storageBucket: "tainan-57cdc.firebasestorage.app",
+            messagingSenderId: "376439150048",
+            appId: "1:376439150048:web:29c1cc89f4b9f97a7f4785",
+            measurementId: "G-2Y7WP1TMWZ"
         };
 
-        // 嘗試自動抓取環境變數 (Canvas 預覽環境專用)
-        try {
-            if (typeof __firebase_config !== 'undefined') {
-                firebaseConfig = JSON.parse(__firebase_config);
-            }
-        } catch (e) {
-            console.warn("未偵測到環境變數，將使用手動配置的 firebaseConfig。");
-        }
-
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'tainan-tour-2026';
-
-        // 初始化變數
-        let app, auth, db;
+        const appId = 'tainan-tour-2026';
         const FIXED_FRIENDS = ["昱辰", "偉哲", "宸瑋"];
-        let currentUser = null;
+        let db, auth, currentUser;
         let expenses = [];
 
-        // 天氣功能 (獨立執行，不受 Firebase 影響)
+        // 初始化全域函數
+        window.toggleBilling = (show) => {
+            const o = document.getElementById('billing-overlay');
+            if(show) { o.classList.remove('hidden'); setTimeout(() => o.classList.add('active'), 10); }
+            else { o.classList.remove('active'); setTimeout(() => o.classList.add('hidden'), 400); }
+        };
+
+        window.joinSession = (name) => {
+            localStorage.setItem('tainan_user_name', name);
+            document.getElementById('name-modal').classList.add('hidden');
+            document.getElementById('user-display').innerText = `嗨 ${name}！已連線`;
+            listenToData();
+        };
+
+        // 綁定按鈕事件 (取代 onclick)
+        document.getElementById('fab-trigger').addEventListener('click', () => window.toggleBilling(true));
+        document.getElementById('close-billing').addEventListener('click', () => window.toggleBilling(false));
+        document.getElementById('add-expense-btn').addEventListener('click', () => document.getElementById('expense-modal').classList.remove('hidden'));
+        document.getElementById('close-expense').addEventListener('click', () => document.getElementById('expense-modal').classList.add('hidden'));
+        document.getElementById('submit-expense').addEventListener('click', async () => {
+            const t = document.getElementById('exp-title').value;
+            const a = document.getElementById('exp-amount').value;
+            const n = localStorage.getItem('tainan_user_name');
+            if(!t || !a || !db) return;
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'expenses'), { 
+                    title: t, amount: Number(a), userName: n, time: serverTimestamp() 
+                });
+                document.getElementById('exp-title').value = ''; document.getElementById('exp-amount').value = '';
+                document.getElementById('expense-modal').classList.add('hidden');
+            } catch (e) { console.error(e); }
+        });
+
+        // 天氣預報
         async function updateWeather() {
-            const container = document.getElementById('hourly-container');
             try {
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=22.9975&longitude=120.2025&hourly=temperature_2m,precipitation_probability,weather_code&timezone=Asia%2FTaipei`);
                 const data = await res.json();
+                const container = document.getElementById('hourly-container');
                 container.innerHTML = '';
                 const getEmoji = (c) => c <= 1 ? '☀️' : (c <= 3 ? '🌤️' : (c <= 65 ? '🌧️' : '🌩️'));
                 for (let i = 6; i <= 24; i++) {
@@ -310,67 +260,24 @@
                     const pop = data.hourly.precipitation_probability[i];
                     const div = document.createElement('div');
                     div.className = "min-w-[75px] flex flex-col items-center bg-white/20 p-3 rounded-2xl backdrop-blur-sm shrink-0";
-                    div.innerHTML = `<span class="text-[10px] opacity-80 mb-1">${String(i).padStart(2,'0')}:00</span><span class="text-xl mb-1">${getEmoji(data.hourly.weather_code[i])}</span><span class="text-sm font-bold">${temp}°</span><span class="text-[8px] opacity-70">${pop}%</span>`;
+                    div.innerHTML = `<span class="text-[10px] opacity-80">${String(i).padStart(2,'0')}:00</span><span class="text-xl mb-1">${getEmoji(data.hourly.weather_code[i])}</span><span class="text-sm font-bold">${temp}°</span><span class="text-[8px] opacity-70">${pop}%</span>`;
                     container.appendChild(div);
-                    if(i === new Date().getHours()) {
-                        document.getElementById('current-temp-main').innerText = `${temp}°`;
-                        document.getElementById('current-pop').innerText = `降雨 ${pop}%`;
-                    }
                 }
-            } catch (e) { container.innerHTML = '<p class="text-xs p-4">氣象更新失敗</p>'; }
+                const nowHr = new Date().getHours();
+                if(nowHr >= 6 && nowHr <= 24) {
+                    document.getElementById('current-temp-main').innerText = `${Math.round(data.hourly.temperature_2m[nowHr])}°`;
+                    document.getElementById('current-pop').innerText = `降雨 ${data.hourly.precipitation_probability[nowHr]}%`;
+                }
+            } catch (e) { console.error("Weather Error:", e); }
         }
-
-        // Firebase 認證與監聽
-        async function initAuth() {
-            if (!firebaseConfig.apiKey) {
-                apiKey: "AIzaSyC0e7dvRxY4PAnxD1DbnA5qtBhuRvkwbYE",
-  authDomain: "tainan-57cdc.firebaseapp.com",
-  projectId: "tainan-57cdc",
-  storageBucket: "tainan-57cdc.firebasestorage.app",
-  messagingSenderId: "376439150048",
-  appId: "1:376439150048:web:29c1cc89f4b9f97a7f4785",
-  measurementId: "G-2Y7WP1TMWZ"
-            }
-
-            try {
-                app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-
-                onAuthStateChanged(auth, (user) => {
-                    currentUser = user;
-                    if (user) {
-                        const saved = localStorage.getItem('tainan_user_name');
-                        if (saved) {
-                            document.getElementById('user-display').innerText = `嗨 ${saved}！雲端同步中`;
-                            listenToData();
-                        } else { document.getElementById('name-modal').classList.remove('hidden'); }
-                    }
-                });
-
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else { await signInAnonymously(auth); }
-            } catch (e) { 
-                console.error("Firebase 初始化失敗", e); 
-                document.getElementById('user-display').innerText = "❌ 雲端連線失敗";
-            }
-        }
-
-        window.joinSession = async (name) => {
-            localStorage.setItem('tainan_user_name', name);
-            document.getElementById('name-modal').classList.add('hidden');
-            document.getElementById('user-display').innerText = `嗨 ${name}！雲端同步中`;
-            if (db) listenToData();
-        };
 
         function listenToData() {
             if (!db) return;
-            // 監聽公共數據路徑：/artifacts/{appId}/public/data/expenses
-            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'expenses'), (snap) => {
+            const ref = collection(db, 'artifacts', appId, 'public', 'data', 'expenses');
+            onSnapshot(ref, (snap) => {
                 expenses = snap.docs.map(d => d.data());
                 renderBilling();
-            }, (err) => console.error("監聽失敗", err));
+            });
         }
 
         function renderBilling() {
@@ -379,30 +286,19 @@
             document.getElementById('total-amount').innerText = `$${Math.round(total)}`;
             document.getElementById('average-amount').innerText = `$${Math.round(avg)}`;
 
+            const balList = document.getElementById('balance-list') || document.createElement('div');
             const balances = {};
             FIXED_FRIENDS.forEach(n => balances[n] = { paid: 0, net: 0 });
             expenses.forEach(e => { if(balances[e.userName]) balances[e.userName].paid += Number(e.amount); });
             FIXED_FRIENDS.forEach(n => balances[n].net = balances[n].paid - avg);
-
-            const balList = document.getElementById('balance-list');
-            balList.innerHTML = '';
-            FIXED_FRIENDS.forEach(n => {
-                const mb = balances[n];
-                const div = document.createElement('div');
-                div.className = "flex justify-between items-center p-4 bg-gray-50 rounded-2xl";
-                div.innerHTML = `<div class="flex items-center"><div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-orange-700 font-bold text-xs mr-3">${n[0]}</div><span class="text-sm font-medium">${n}</span></div><span class="text-xs font-bold ${mb.net >= 0 ? 'text-green-600' : 'text-red-500'}">${mb.net >= 0 ? '已付超額' : '欠款'} $${Math.round(Math.abs(mb.net))}</span>`;
-                balList.appendChild(div);
-            });
 
             const transList = document.getElementById('transfer-list');
             transList.innerHTML = '';
             let debtData = FIXED_FRIENDS.map(n => ({ name: n, net: balances[n].net }));
             let debtors = debtData.filter(b => b.net < -1).sort((a,b) => a.net - b.net);
             let creditors = debtData.filter(b => b.net > 1).sort((a,b) => b.net - a.net);
-
-            if (!debtors.length) {
-                transList.innerHTML = '<p class="text-[11px] text-gray-400 italic">目前無轉帳需求，帳目已平。</p>';
-            } else {
+            
+            if (debtors.length) {
                 let d=0, c=0;
                 while(d < debtors.length && c < creditors.length) {
                     const transfer = Math.min(Math.abs(debtors[d].net), creditors[c].net);
@@ -413,56 +309,50 @@
                     debtors[d].net += transfer; creditors[c].net -= transfer;
                     if(Math.abs(debtors[d].net) < 1) d++; if(Math.abs(creditors[c].net) < 1) c++;
                 }
-            }
+            } else { transList.innerHTML = '<p class="text-[11px] text-gray-400 italic">帳目已平</p>'; }
 
             const expList = document.getElementById('expense-list');
-            expList.innerHTML = expenses.length ? '' : '<p class="text-center text-[10px] text-gray-300 py-8">暫無紀錄</p>';
+            expList.innerHTML = expenses.length ? '' : '<p class="text-center text-[10px] text-gray-300 py-8">尚無消費紀錄</p>';
             [...expenses].sort((a,b) => (b.time?.seconds || 0) - (a.time?.seconds || 0)).forEach(e => {
                 const div = document.createElement('div');
                 div.className = "flex justify-between items-center py-4 border-b border-gray-50 last:border-0";
-                div.innerHTML = `<div><p class="text-sm font-bold text-gray-800">${e.title}</p><p class="text-[10px] text-gray-400">由 ${e.userName} 墊付</p></div><p class="font-bold text-gray-800">$${e.amount}</p>`;
+                div.innerHTML = `<div><p class="text-sm font-bold text-gray-800">${e.title}</p><p class="text-[10px] text-gray-400">${e.userName} 墊付</p></div><p class="font-bold text-gray-800">$${e.amount}</p>`;
                 expList.appendChild(div);
             });
         }
 
-        window.toggleBilling = (s) => {
-            const o = document.getElementById('billing-overlay');
-            if(s) { 
-                o.classList.remove('hidden'); 
-                setTimeout(() => o.classList.add('active'), 10); 
-            } else { 
-                o.classList.remove('active'); 
-                setTimeout(() => o.classList.add('hidden'), 400); 
-            }
-        };
-        
-        window.openExpenseModal = () => document.getElementById('expense-modal').classList.remove('hidden');
-        window.closeExpenseModal = () => document.getElementById('expense-modal').classList.add('hidden');
-        
-        window.submitExpense = async () => {
-            const t = document.getElementById('exp-title').value;
-            const a = document.getElementById('exp-amount').value;
-            const n = localStorage.getItem('tainan_user_name');
-            if(!t || !a || !db) return;
-            try {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'expenses'), { 
-                    title: t, 
-                    amount: Number(a), 
-                    userName: n, 
-                    time: serverTimestamp() 
-                });
-                document.getElementById('exp-title').value = ''; 
-                document.getElementById('exp-amount').value = ''; 
-                closeExpenseModal();
-            } catch (e) { 
-                console.error("提交失敗", e);
-                alert("儲存失敗，請檢查網路或 Firebase 設定");
-            }
-        };
-
-        // 啟動
+        // 初始化流程
         updateWeather();
-        initAuth();
+        try {
+            const firebaseApp = initializeApp(firebaseConfig);
+            auth = getAuth(firebaseApp);
+            db = getFirestore(firebaseApp);
+
+            const optionsContainer = document.getElementById('name-options');
+            FIXED_FRIENDS.forEach(name => {
+                const btn = document.createElement('button');
+                btn.className = "w-full bg-orange-50 text-orange-700 font-bold py-5 rounded-2xl active:bg-orange-600 active:text-white transition-all";
+                btn.innerText = name;
+                btn.onclick = () => window.joinSession(name);
+                optionsContainer.appendChild(btn);
+            });
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    const saved = localStorage.getItem('tainan_user_name');
+                    if (saved) {
+                        document.getElementById('user-display').innerText = `嗨 ${saved}！已連線`;
+                        listenToData();
+                    } else {
+                        document.getElementById('name-modal').classList.remove('hidden');
+                    }
+                }
+            });
+            signInAnonymously(auth);
+        } catch (e) {
+            document.getElementById('user-display').innerText = "❌ 連線失敗";
+        }
     </script>
 </body>
 </html>
