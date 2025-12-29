@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>2026 台南散策</title>
+    <title>2026首日台南行！</title>
     
     <!-- iOS PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -59,14 +59,18 @@
         }
         .fab-press:active { transform: scale(0.9); transition: 0.1s; }
         html, body { overflow-x: hidden; }
+
+        /* 骨架屏與載入效果 */
+        .loading-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
 <body class="text-gray-800">
 
     <!-- Header -->
     <header class="bg-orange-700 text-white pt-[calc(env(safe-area-inset-top)+20px)] pb-6 px-6 shadow-md text-center">
-        <h1 class="text-xl font-bold">台南元旦散策 1/1</h1>
-        <div id="user-display" class="text-[10px] opacity-80 mt-1">正在初始化...</div>
+        <h1 class="text-xl font-bold">2026首日台南行！</h1>
+        <div id="user-display" class="text-[10px] opacity-80 mt-1">連線中...</div>
     </header>
 
     <!-- 天氣區塊 -->
@@ -83,7 +87,7 @@
                 </div>
             </div>
             <div id="hourly-container" class="flex overflow-x-auto gap-3 hide-scrollbar pb-1">
-                <p class="text-xs opacity-70 py-4">正在載入氣象資料...</p>
+                <p class="text-xs opacity-70 py-4 loading-pulse">正在載入氣象資料...</p>
             </div>
         </div>
     </section>
@@ -92,29 +96,54 @@
     <main class="container mx-auto px-4 mt-6">
         <div class="bg-white rounded-2xl shadow-sm p-6 mb-10 border border-gray-100">
             <h2 class="text-lg font-bold mb-8 flex items-center text-orange-800 border-b pb-4">
-                <span class="mr-2 text-xl">🚶</span> 散策路線圖
+                <span class="mr-2 text-xl">🚶</span> 台南走跳路線
             </h2>
             
             <div class="relative timeline-line ml-3 text-sm">
-                <!-- 08:47 抵達 -->
+                <!-- 08:47 -->
                 <div class="relative pl-10 mb-8">
                     <div class="absolute left-0 top-1 w-6 h-6 bg-orange-100 border-2 border-orange-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-orange-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-orange-600">08:47</span>
                     <h3 class="font-bold">抵達台南火車站</h3>
                     <a href="https://www.google.com/maps/search/?api=1&query=台南火車站" target="_blank" class="map-link">📍 導航車站</a>
                 </div>
+
                 <div class="relative pl-10 mb-8 opacity-60">
                     <div class="absolute left-1 top-2 w-4 h-4 bg-gray-200 rounded-full"></div>
                     <span class="text-xs font-bold text-gray-500">08:50 - 09:05</span>
                     <p class="text-xs italic">沿中山路散策至舊城區 (15 min)</p>
                 </div>
+
                 <!-- 吳園 -->
                 <div class="relative pl-10 mb-8">
                     <div class="absolute left-0 top-1 w-6 h-6 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-green-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-green-600">09:05 - 10:30</span>
                     <h3 class="font-bold">吳園 & 公會堂</h3>
+                    <p class="text-xs text-gray-500 mt-1">欣賞中式庭園美學。</p>
                     <a href="https://www.google.com/maps/search/?api=1&query=台南吳園藝文中心" target="_blank" class="map-link">📍 導航吳園</a>
                 </div>
+
+                <div class="relative pl-10 mb-8 opacity-60">
+                    <div class="absolute left-1 top-2 w-4 h-4 bg-gray-200 rounded-full"></div>
+                    <span class="text-xs font-bold text-gray-500">10:30 - 10:45</span>
+                    <p class="text-xs italic">步行至湯德章紀念公園 (15 min)</p>
+                </div>
+
+                <!-- 測候所 -->
+                <div class="relative pl-10 mb-8">
+                    <div class="absolute left-0 top-1 w-6 h-6 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-green-600 rounded-full"></div></div>
+                    <span class="text-xs font-bold text-green-600">10:45 - 11:45</span>
+                    <h3 class="font-bold">舊古蹟群 (測候所、消防館)</h3>
+                    <p class="text-xs text-gray-500 mt-1">地標「胡椒管」，歷史核心。</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=台南測候所" target="_blank" class="map-link">📍 導航測候所</a>
+                </div>
+
+                <div class="relative pl-10 mb-8 opacity-60">
+                    <div class="absolute left-1 top-2 w-4 h-4 bg-gray-200 rounded-full"></div>
+                    <span class="text-xs font-bold text-gray-500">11:45 - 12:15</span>
+                    <p class="text-xs italic">悠閒晃往友愛街 (30 min 探索時間)</p>
+                </div>
+
                 <!-- Musa -->
                 <div class="relative pl-10 mb-8">
                     <div class="absolute left-0 top-1 w-6 h-6 bg-red-100 border-2 border-red-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-red-600 rounded-full"></div></div>
@@ -122,6 +151,51 @@
                     <h3 class="font-bold text-red-700">Musa 泰國料理 (午餐)</h3>
                     <a href="https://www.google.com/maps/search/?api=1&query=Musa泰國料理" target="_blank" class="map-link">📍 導航 Musa</a>
                 </div>
+
+                <div class="relative pl-10 mb-8 opacity-60">
+                    <div class="absolute left-1 top-2 w-4 h-4 bg-gray-200 rounded-full"></div>
+                    <span class="text-xs font-bold text-gray-500">13:30 - 13:45</span>
+                    <p class="text-xs italic">步行前往西市場 (15 min)</p>
+                </div>
+
+                <!-- 西市場 -->
+                <div class="relative pl-10 mb-8">
+                    <div class="absolute left-0 top-1 w-6 h-6 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-blue-600 rounded-full"></div></div>
+                    <span class="text-xs font-bold text-blue-600">13:45 - 14:20</span>
+                    <h3 class="font-bold">西市場 (大菜市)</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=台南西市場" target="_blank" class="map-link">📍 導航西市場</a>
+                </div>
+
+                <!-- 國華街 -->
+                <div class="relative pl-10 mb-8">
+                    <div class="absolute left-0 top-1 w-6 h-6 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-green-600 rounded-full"></div></div>
+                    <span class="text-xs font-bold text-green-600">14:25 - 16:00</span>
+                    <h3 class="font-bold">國華街美食探索</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=國華街美食" target="_blank" class="map-link">📍 導航國華街</a>
+                </div>
+
+                <!-- 美術館 -->
+                <div class="relative pl-10 mb-8">
+                    <div class="absolute left-0 top-1 w-6 h-6 bg-purple-100 border-2 border-purple-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-purple-600 rounded-full"></div></div>
+                    <span class="text-xs font-bold text-purple-600">16:15 - 17:15</span>
+                    <h3 class="font-bold">蝸牛巷 & 美術館 2 館</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=台南美術館2館" target="_blank" class="map-link">📍 導航美館2館</a>
+                </div>
+
+                <div class="relative pl-10 mb-8 opacity-60">
+                    <div class="absolute left-1 top-2 w-4 h-4 bg-gray-200 rounded-full"></div>
+                    <span class="text-xs font-bold text-gray-500">17:15 - 17:35</span>
+                    <p class="text-xs italic">漫步回火車站區域 (20 min)</p>
+                </div>
+
+                <!-- Focus -->
+                <div class="relative pl-10 mb-8">
+                    <div class="absolute left-0 top-1 w-6 h-6 bg-yellow-100 border-2 border-yellow-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-yellow-600 rounded-full"></div></div>
+                    <span class="text-xs font-bold text-yellow-600">17:35 - 18:50</span>
+                    <h3 class="font-bold">Focus 時尚流行館</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Focus時尚流行館" target="_blank" class="map-link">📍 導航 Focus</a>
+                </div>
+
                 <div class="relative pl-10">
                     <div class="absolute left-0 top-1 w-6 h-6 bg-gray-100 border-2 border-gray-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-gray-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-gray-600">19:15</span>
@@ -145,6 +219,20 @@
         </header>
 
         <div class="p-4 pb-24">
+            <!-- 我的專屬報告 -->
+            <div id="my-report-card" class="bg-orange-600 text-white rounded-2xl shadow-lg p-5 mb-6 hidden">
+                <h3 class="text-sm font-bold mb-3 flex items-center">
+                    <span class="mr-2">📋</span> 我的結算報告
+                </h3>
+                <div class="space-y-2 text-sm opacity-95">
+                    <p id="report-paid">你總共墊付了：$0</p>
+                    <p id="report-share">你的應付份額：$0</p>
+                    <div class="pt-2 border-t border-white/20">
+                        <p id="report-status" class="text-base font-bold">正在同步雲端...</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-2 gap-4 mb-6">
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                     <p class="text-[10px] text-gray-400 font-bold uppercase">總支出</p>
@@ -156,17 +244,30 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-md p-5 mb-6 border-t-4 border-orange-500">
-                <h3 class="text-sm font-bold mb-4 text-gray-700">🔄 轉帳指令</h3>
-                <div id="transfer-list" class="space-y-3"></div>
+            <!-- 成員狀態 -->
+            <div class="bg-white rounded-2xl shadow-sm border p-5 mb-6">
+                <h3 class="text-xs font-bold mb-4 text-gray-400 uppercase tracking-widest">目前收支餘額</h3>
+                <div id="balance-list" class="space-y-3"></div>
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border p-5">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-sm font-bold text-gray-700">支出明細</h3>
-                    <button id="add-expense-btn" class="text-xs bg-orange-600 text-white px-4 py-2 rounded-full font-bold">+ 新增</button>
+                    <h3 class="text-sm font-bold text-gray-700">支出明細紀錄</h3>
+                    <button id="add-expense-btn" class="text-xs bg-orange-600 text-white px-4 py-2 rounded-full font-bold shadow-sm">+ 新增</button>
                 </div>
                 <div id="expense-list" class="space-y-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定義確認刪除彈窗 -->
+    <div id="confirm-modal" class="fixed inset-0 z-[150] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6 hidden">
+        <div class="bg-white w-full max-w-xs rounded-3xl p-6 shadow-2xl text-center">
+            <h3 class="text-lg font-bold mb-2">確定刪除？</h3>
+            <p class="text-xs text-gray-400 mb-6">這筆紀錄將從所有人的裝置中移除。</p>
+            <div class="flex gap-3">
+                <button id="confirm-cancel" class="flex-1 bg-gray-100 text-gray-600 py-3 rounded-xl font-bold">取消</button>
+                <button id="confirm-delete" class="flex-1 bg-red-500 text-white py-3 rounded-xl font-bold">刪除</button>
             </div>
         </div>
     </div>
@@ -176,9 +277,7 @@
         <div class="bg-white w-full max-w-sm rounded-3xl p-8 shadow-2xl text-center">
             <h3 class="text-xl font-bold mb-2">你是誰？</h3>
             <p class="text-xs text-gray-400 mb-8">選擇後即可同步帳目</p>
-            <div id="name-options" class="flex flex-col gap-4">
-                <!-- 按鈕會由 JS 生成以確保連線 -->
-            </div>
+            <div id="name-options" class="flex flex-col gap-4"></div>
         </div>
     </div>
 
@@ -187,7 +286,7 @@
         <div class="bg-white w-full max-w-sm rounded-3xl p-8 shadow-2xl">
             <div class="flex justify-between items-center mb-6"><h3 class="text-lg font-bold">新增支出</h3><button id="close-expense" class="text-gray-300 p-2">✕</button></div>
             <div class="space-y-5">
-                <input type="text" id="exp-title" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 outline-none" placeholder="支出內容">
+                <input type="text" id="exp-title" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 outline-none" placeholder="項目 (如：台鐵票)">
                 <input type="number" id="exp-amount" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-4 outline-none" placeholder="金額">
                 <button id="submit-expense" class="w-full bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg mt-2 fab-press">儲存並同步</button>
             </div>
@@ -197,7 +296,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC0e7dvRxY4PAnxD1DbnA5qtBhuRvkwbYE",
@@ -211,10 +310,10 @@
 
         const appId = 'tainan-tour-2026';
         const FIXED_FRIENDS = ["昱辰", "偉哲", "宸瑋"];
-        let db, auth, currentUser;
+        let db, auth, currentUser, deleteTargetId = null;
         let expenses = [];
 
-        // 初始化全域函數
+        // 全域功能
         window.toggleBilling = (show) => {
             const o = document.getElementById('billing-overlay');
             if(show) { o.classList.remove('hidden'); setTimeout(() => o.classList.add('active'), 10); }
@@ -224,15 +323,35 @@
         window.joinSession = (name) => {
             localStorage.setItem('tainan_user_name', name);
             document.getElementById('name-modal').classList.add('hidden');
-            document.getElementById('user-display').innerText = `嗨 ${name}！已連線`;
+            document.getElementById('user-display').innerText = `嗨 ${name}！連線成功`;
             listenToData();
         };
 
-        // 綁定按鈕事件 (取代 onclick)
+        window.requestDelete = (id) => {
+            deleteTargetId = id;
+            document.getElementById('confirm-modal').classList.remove('hidden');
+        };
+
+        // 事件綁定
         document.getElementById('fab-trigger').addEventListener('click', () => window.toggleBilling(true));
         document.getElementById('close-billing').addEventListener('click', () => window.toggleBilling(false));
         document.getElementById('add-expense-btn').addEventListener('click', () => document.getElementById('expense-modal').classList.remove('hidden'));
         document.getElementById('close-expense').addEventListener('click', () => document.getElementById('expense-modal').classList.add('hidden'));
+        
+        document.getElementById('confirm-cancel').addEventListener('click', () => {
+            document.getElementById('confirm-modal').classList.add('hidden');
+            deleteTargetId = null;
+        });
+
+        document.getElementById('confirm-delete').addEventListener('click', async () => {
+            if (!db || !deleteTargetId) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'expenses', deleteTargetId));
+                document.getElementById('confirm-modal').classList.add('hidden');
+                deleteTargetId = null;
+            } catch (e) { console.error(e); }
+        });
+
         document.getElementById('submit-expense').addEventListener('click', async () => {
             const t = document.getElementById('exp-title').value;
             const a = document.getElementById('exp-amount').value;
@@ -257,10 +376,9 @@
                 const getEmoji = (c) => c <= 1 ? '☀️' : (c <= 3 ? '🌤️' : (c <= 65 ? '🌧️' : '🌩️'));
                 for (let i = 6; i <= 24; i++) {
                     const temp = Math.round(data.hourly.temperature_2m[i]);
-                    const pop = data.hourly.precipitation_probability[i];
                     const div = document.createElement('div');
                     div.className = "min-w-[75px] flex flex-col items-center bg-white/20 p-3 rounded-2xl backdrop-blur-sm shrink-0";
-                    div.innerHTML = `<span class="text-[10px] opacity-80">${String(i).padStart(2,'0')}:00</span><span class="text-xl mb-1">${getEmoji(data.hourly.weather_code[i])}</span><span class="text-sm font-bold">${temp}°</span><span class="text-[8px] opacity-70">${pop}%</span>`;
+                    div.innerHTML = `<span class="text-[10px] opacity-80">${String(i).padStart(2,'0')}:00</span><span class="text-xl mb-1">${getEmoji(data.hourly.weather_code[i])}</span><span class="text-sm font-bold">${temp}°</span><span class="text-[8px] opacity-70">${data.hourly.precipitation_probability[i]}%</span>`;
                     container.appendChild(div);
                 }
                 const nowHr = new Date().getHours();
@@ -268,60 +386,64 @@
                     document.getElementById('current-temp-main').innerText = `${Math.round(data.hourly.temperature_2m[nowHr])}°`;
                     document.getElementById('current-pop').innerText = `降雨 ${data.hourly.precipitation_probability[nowHr]}%`;
                 }
-            } catch (e) { console.error("Weather Error:", e); }
+            } catch (e) { console.error(e); }
         }
 
         function listenToData() {
             if (!db) return;
             const ref = collection(db, 'artifacts', appId, 'public', 'data', 'expenses');
             onSnapshot(ref, (snap) => {
-                expenses = snap.docs.map(d => d.data());
+                expenses = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 renderBilling();
             });
         }
 
         function renderBilling() {
+            const myName = localStorage.getItem('tainan_user_name');
             const total = expenses.reduce((s, e) => s + Number(e.amount), 0);
             const avg = total / 3;
+            
             document.getElementById('total-amount').innerText = `$${Math.round(total)}`;
             document.getElementById('average-amount').innerText = `$${Math.round(avg)}`;
 
-            const balList = document.getElementById('balance-list') || document.createElement('div');
             const balances = {};
             FIXED_FRIENDS.forEach(n => balances[n] = { paid: 0, net: 0 });
             expenses.forEach(e => { if(balances[e.userName]) balances[e.userName].paid += Number(e.amount); });
             FIXED_FRIENDS.forEach(n => balances[n].net = balances[n].paid - avg);
 
-            const transList = document.getElementById('transfer-list');
-            transList.innerHTML = '';
-            let debtData = FIXED_FRIENDS.map(n => ({ name: n, net: balances[n].net }));
-            let debtors = debtData.filter(b => b.net < -1).sort((a,b) => a.net - b.net);
-            let creditors = debtData.filter(b => b.net > 1).sort((a,b) => b.net - a.net);
-            
-            if (debtors.length) {
-                let d=0, c=0;
-                while(d < debtors.length && c < creditors.length) {
-                    const transfer = Math.min(Math.abs(debtors[d].net), creditors[c].net);
-                    const p = document.createElement('div');
-                    p.className = "flex justify-between items-center p-3 bg-white border border-orange-50 rounded-xl shadow-sm";
-                    p.innerHTML = `<span class="text-xs"><b>${debtors[d].name}</b> 👉 <b>${creditors[c].name}</b></span> <span class="text-orange-600 font-bold">$${Math.round(transfer)}</span>`;
-                    transList.appendChild(p);
-                    debtors[d].net += transfer; creditors[c].net -= transfer;
-                    if(Math.abs(debtors[d].net) < 1) d++; if(Math.abs(creditors[c].net) < 1) c++;
-                }
-            } else { transList.innerHTML = '<p class="text-[11px] text-gray-400 italic">帳目已平</p>'; }
+            if (myName && balances[myName]) {
+                document.getElementById('my-report-card').classList.remove('hidden');
+                document.getElementById('report-paid').innerText = `你總共墊付了：$${Math.round(balances[myName].paid)}`;
+                document.getElementById('report-share').innerText = `你的應付份額：$${Math.round(avg)}`;
+                
+                const myNet = balances[myName].net;
+                const statusEl = document.getElementById('report-status');
+                if (Math.abs(myNet) < 1) statusEl.innerText = "💰 目前帳目已平！";
+                else if (myNet > 0) statusEl.innerText = `🙌 應收：$${Math.round(myNet)} (別人該給你錢)`;
+                else statusEl.innerText = `💸 應付：$${Math.round(Math.abs(myNet))} (你該給別人錢)`;
+            }
+
+            const balList = document.getElementById('balance-list');
+            balList.innerHTML = '';
+            FIXED_FRIENDS.forEach(n => {
+                const mb = balances[n];
+                const div = document.createElement('div');
+                div.className = "flex justify-between items-center p-3 bg-gray-50 rounded-xl";
+                div.innerHTML = `<div class="flex items-center"><div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-orange-700 font-bold text-xs mr-3">${n[0]}</div><span class="text-sm font-medium">${n}</span></div><span class="text-xs font-bold ${mb.net >= 0 ? 'text-green-600' : 'text-red-500'}">${mb.net >= 0 ? '超墊' : '欠款'} $${Math.round(Math.abs(mb.net))}</span>`;
+                balList.appendChild(div);
+            });
 
             const expList = document.getElementById('expense-list');
-            expList.innerHTML = expenses.length ? '' : '<p class="text-center text-[10px] text-gray-300 py-8">尚無消費紀錄</p>';
+            expList.innerHTML = expenses.length ? '' : '<p class="text-center text-[10px] text-gray-300 py-8">尚無紀錄</p>';
             [...expenses].sort((a,b) => (b.time?.seconds || 0) - (a.time?.seconds || 0)).forEach(e => {
                 const div = document.createElement('div');
                 div.className = "flex justify-between items-center py-4 border-b border-gray-50 last:border-0";
-                div.innerHTML = `<div><p class="text-sm font-bold text-gray-800">${e.title}</p><p class="text-[10px] text-gray-400">${e.userName} 墊付</p></div><p class="font-bold text-gray-800">$${e.amount}</p>`;
+                div.innerHTML = `<div class="flex-1"><p class="text-sm font-bold text-gray-800">${e.title}</p><p class="text-[10px] text-gray-400">${e.userName} 墊付</p></div><div class="flex items-center gap-4"><p class="font-bold text-gray-800">$${e.amount}</p><button onclick="window.requestDelete('${e.id}')" class="text-red-500 bg-red-50 px-3 py-1 rounded-lg text-[10px] font-bold">刪除</button></div>`;
                 expList.appendChild(div);
             });
         }
 
-        // 初始化流程
+        // 初始化
         updateWeather();
         try {
             const firebaseApp = initializeApp(firebaseConfig);
@@ -342,17 +464,13 @@
                     currentUser = user;
                     const saved = localStorage.getItem('tainan_user_name');
                     if (saved) {
-                        document.getElementById('user-display').innerText = `嗨 ${saved}！已連線`;
+                        document.getElementById('user-display').innerText = `嗨 ${saved}！連線成功`;
                         listenToData();
-                    } else {
-                        document.getElementById('name-modal').classList.remove('hidden');
-                    }
+                    } else { document.getElementById('name-modal').classList.remove('hidden'); }
                 }
             });
             signInAnonymously(auth);
-        } catch (e) {
-            document.getElementById('user-display').innerText = "❌ 連線失敗";
-        }
+        } catch (e) { document.getElementById('user-display').innerText = "❌ 連線失敗"; }
     </script>
 </body>
 </html>
