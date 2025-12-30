@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>2026 作伙台南行</title>
     
-    <!-- iOS PWA Meta Tags -->
+    <!-- iOS PWA 設定 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="台南散策">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/854/854878.png">
+    <meta name="apple-mobile-web-app-title" content="台南我來啦">
+    <!-- 更換為白底簡約圖示 -->
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/984/984233.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -30,26 +31,25 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* 智慧分帳系統層級最高 */
-        #billing-overlay {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateY(100%);
-            display: flex; flex-direction: column;
-            z-index: 600;
-        }
+        /* UI 層級管理 */
+        header { z-index: 100; position: relative; }
+        #fab-trigger { z-index: 400; }
+        #billing-overlay { z-index: 600; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(100%); display: flex; flex-direction: column; }
         #billing-overlay.active { transform: translateY(0%); }
+        #expense-modal { z-index: 700; }
+        #name-modal { z-index: 800; }
+        #confirm-modal { z-index: 900; }
+
         .fab-press:active { transform: scale(0.9); transition: 0.1s; }
         html, body { overflow-x: hidden; }
         .loading-pulse { animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
-        
-        header { position: relative; z-index: 100; }
     </style>
 </head>
 <body class="text-gray-800">
 
     <!-- Header -->
-    <header class="bg-orange-700 text-white pt-[calc(env(safe-area-inset-top)+20px)] pb-6 px-6 shadow-md text-center">
+    <header class="bg-orange-700 text-white pt-[calc(env(safe-area-inset-top)+20px)] pb-6 px-6 shadow-md text-center relative">
         <h1 class="text-xl font-bold">2026 作伙台南行</h1>
         <div id="user-display" class="text-[10px] opacity-80 mt-1">連線中...</div>
         
@@ -61,7 +61,7 @@
         </button>
     </header>
 
-    <!-- 天氣區塊 -->
+    <!-- 天氣區塊 (06:00 - 24:00, 自動過濾過去時間) -->
     <section class="mt-4 px-4">
         <div class="weather-card rounded-2xl p-5 text-white shadow-lg min-h-[160px]">
             <div class="flex justify-between items-end mb-4">
@@ -75,12 +75,12 @@
                 </div>
             </div>
             <div id="hourly-container" class="flex overflow-x-auto gap-3 hide-scrollbar pb-1">
-                <p class="text-xs opacity-70 py-4 loading-pulse">載入中...</p>
+                <p class="text-xs opacity-70 py-4 loading-pulse">正在載入氣象資料...</p>
             </div>
         </div>
     </section>
 
-    <!-- 台南走跳路線 (恢復 Walking 詳細資訊) -->
+    <!-- 台南走跳路線 (完整 100% 行程內容) -->
     <main class="container mx-auto px-4 mt-6">
         <div class="bg-white rounded-2xl shadow-sm p-6 mb-10 border border-gray-100">
             <h2 class="text-lg font-bold mb-8 flex items-center text-orange-800 border-b pb-4">
@@ -88,6 +88,26 @@
             </h2>
             
             <div class="relative timeline-line ml-3 text-sm">
+                <!-- 07:25 -->
+                <div class="relative pl-10 mb-8">
+                    <div class="absolute left-0 top-1 w-6 h-6 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-blue-600 rounded-full"></div></div>
+                    <span class="text-xs font-bold text-blue-600">07:25</span>
+                    <h3 class="font-bold">宿舍出發</h3>
+                </div>
+
+                <!-- 07:50 -->
+                <div class="relative pl-10 mb-8">
+                    <div class="absolute left-0 top-1 w-6 h-6 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-blue-600 rounded-full"></div></div>
+                    <span class="text-xs font-bold text-blue-600">07:50</span>
+                    <h3 class="font-bold">上自強號</h3>
+                    <div class="mt-2 p-3 bg-blue-50 border border-blue-100 rounded-xl">
+                        <p class="text-[11px] font-bold text-blue-800 leading-relaxed">
+                            🚂 自強 (3000) 371 車次<br>
+                            💺 座位：10車18號、10車22號、10車24號
+                        </p>
+                    </div>
+                </div>
+
                 <!-- 08:47 -->
                 <div class="relative pl-10 mb-8">
                     <div class="absolute left-0 top-1 w-6 h-6 bg-orange-100 border-2 border-orange-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-orange-600 rounded-full"></div></div>
@@ -107,7 +127,7 @@
                     <div class="absolute left-0 top-1 w-6 h-6 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-green-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-green-600">09:05 - 10:30</span>
                     <h3 class="font-bold text-gray-800">吳園 & 公會堂</h3>
-                    <p class="text-xs text-gray-500 mt-1">欣賞中式庭園美學。</p>
+                    <p class="text-xs text-gray-500 mt-1">元旦清晨漫步，欣賞中式庭園美學。</p>
                     <a href="https://www.google.com/maps/search/?api=1&query=台南吳園藝文中心" target="_blank" class="map-link">📍 導航吳園</a>
                 </div>
 
@@ -121,8 +141,8 @@
                 <div class="relative pl-10 mb-8">
                     <div class="absolute left-0 top-1 w-6 h-6 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-green-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-green-600">10:45 - 11:45</span>
-                    <h3 class="font-bold">舊古蹟群 (測候所、消防館)</h3>
-                    <p class="text-xs text-gray-500 mt-1">必看地標「胡椒管」。</p>
+                    <h3 class="font-bold text-gray-800">舊古蹟群 (測候所、消防館)</h3>
+                    <p class="text-xs text-gray-500 mt-1">必看地標「胡椒管」，舊城歷史核心。</p>
                     <a href="https://www.google.com/maps/search/?api=1&query=台南測候所" target="_blank" class="map-link">📍 導航測候所</a>
                 </div>
 
@@ -151,14 +171,15 @@
                     <div class="absolute left-0 top-1 w-6 h-6 bg-blue-100 border-2 border-blue-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-blue-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-blue-600">13:45 - 14:20</span>
                     <h3 class="font-bold">西市場 (大菜市)</h3>
+                    <p class="text-xs text-gray-500 mt-1">百年市場修復美學，拍照熱點。</p>
                     <a href="https://www.google.com/maps/search/?api=1&query=台南西市場" target="_blank" class="map-link">📍 導航西市場</a>
                 </div>
 
                 <div class="relative pl-10 mb-8">
                     <div class="absolute left-0 top-1 w-6 h-6 bg-green-100 border-2 border-green-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-green-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-green-600">14:25 - 16:00</span>
-                    <h3 class="font-bold">國華街美食探索</h3>
-                    <a href="https://www.google.com/maps/search/?api=1&query=國華街美食" target="_blank" class="map-link">📍 導航國華街</a>
+                    <h3 class="font-bold text-gray-800">國華街美食探索</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=國華街三段美食" target="_blank" class="map-link">📍 導航國華街</a>
                 </div>
 
                 <div class="relative pl-10 mb-8">
@@ -186,21 +207,21 @@
                     <div class="absolute left-0 top-1 w-6 h-6 bg-gray-100 border-2 border-gray-500 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-gray-600 rounded-full"></div></div>
                     <span class="text-xs font-bold text-gray-600">19:15</span>
                     <h3 class="font-bold">返回台南車站</h3>
-                    <p class="text-xs text-gray-400 mt-1">完美結束首日行程。</p>
+                    <p class="text-xs text-gray-400 mt-1">完美結束行程，台南我來啦！</p>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- 分帳浮球 -->
-    <button id="fab-trigger" class="fixed bottom-8 right-6 z-[400] w-16 h-16 bg-orange-600 text-white rounded-full shadow-2xl flex flex-col items-center justify-center fab-press">
+    <button id="fab-trigger" class="fixed bottom-8 right-6 w-16 h-16 bg-orange-600 text-white rounded-full shadow-2xl flex flex-col items-center justify-center fab-press">
         <span class="text-2xl">💰</span>
         <span class="text-[10px] font-bold">分帳</span>
     </button>
 
-    <!-- 智慧分帳介面 -->
+    <!-- 智慧分帳系統介面 -->
     <div id="billing-overlay" class="fixed inset-0 bg-gray-50 hidden overflow-y-auto">
-        <header class="bg-white border-b pt-[calc(env(safe-area-inset-top)+10px)] pb-4 px-5 flex justify-between items-center sticky top-0 z-[510]">
+        <header class="bg-white border-b pt-[calc(env(safe-area-inset-top)+10px)] pb-4 px-5 flex justify-between items-center sticky top-0">
             <h2 class="font-bold text-lg text-orange-700">智慧分帳系統</h2>
             <button id="close-billing" class="text-gray-400 text-2xl p-2">✕</button>
         </header>
@@ -210,7 +231,7 @@
                 <h3 class="text-sm font-bold mb-3 flex items-center"><span class="mr-2">📋</span> 我的結算報告</h3>
                 <div class="space-y-2 text-sm opacity-95">
                     <p id="report-paid">你墊付了：$0</p>
-                    <p id="report-share">應付額：$0</p>
+                    <p id="report-share">你的應付份額：$0</p>
                     <div class="pt-2 border-t border-white/20">
                         <p id="report-status" class="text-base font-bold text-white">同步中...</p>
                     </div>
@@ -219,43 +240,43 @@
 
             <div class="grid grid-cols-2 gap-4 mb-6">
                 <div class="bg-white p-4 rounded-2xl shadow-sm border">
-                    <p class="text-[10px] text-gray-400 font-bold">總支出</p>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase">總支出總額</p>
                     <p id="total-amount" class="text-xl font-bold text-gray-800">$0</p>
                 </div>
                 <div class="bg-orange-50 p-4 rounded-2xl shadow-sm border border-orange-100">
-                    <p class="text-[10px] text-orange-600 font-bold">平均額</p>
+                    <p class="text-[10px] text-orange-600 font-bold uppercase">平均每人</p>
                     <p id="average-amount" class="text-xl font-bold text-orange-700">$0</p>
                 </div>
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border p-5 mb-6">
-                <h3 class="text-xs font-bold mb-4 text-gray-400 uppercase text-center">結算建議 (點對點)</h3>
+                <h3 class="text-xs font-bold mb-4 text-gray-400 uppercase tracking-widest text-center">結算建議 (點對點)</h3>
                 <div id="balance-list" class="space-y-3"></div>
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-sm font-bold text-gray-700">支出明細紀錄</h3>
-                    <button id="add-expense-btn" class="text-xs bg-orange-600 text-white px-4 py-2 rounded-full font-bold">+ 新增</button>
+                    <button id="add-expense-btn" class="text-xs bg-orange-600 text-white px-4 py-2 rounded-full font-bold shadow-sm">+ 新增支出</button>
                 </div>
                 <div id="expense-list" class="space-y-4"></div>
             </div>
         </div>
     </div>
 
-    <!-- 身分選擇 (Modal) -->
-    <div id="name-modal" class="fixed inset-0 z-[800] flex items-center justify-center bg-black/75 backdrop-blur-sm px-6 hidden">
+    <!-- 身分選擇 -->
+    <div id="name-modal" class="fixed inset-0 flex items-center justify-center bg-black/75 backdrop-blur-sm px-6 hidden">
         <div class="bg-white w-full max-w-sm rounded-3xl p-8 shadow-2xl text-center">
             <h3 class="text-xl font-bold mb-2">你是哪位帥哥？</h3>
-            <p class="text-xs text-gray-400 mb-8">選擇後即可開啟雲端同步分帳</p>
+            <p class="text-xs text-gray-400 mb-8">選擇身分以同步三人帳目</p>
             <div id="name-options" class="flex flex-col gap-4"></div>
         </div>
     </div>
 
-    <!-- 確認窗 -->
-    <div id="confirm-modal" class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6 hidden">
+    <!-- 確認視窗 -->
+    <div id="confirm-modal" class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm px-6 hidden">
         <div class="bg-white w-full max-w-xs rounded-3xl p-6 shadow-2xl text-center">
-            <h3 id="confirm-title" class="text-lg font-bold mb-2">確定執行？</h3>
+            <h3 id="confirm-title" class="text-lg font-bold mb-2 text-orange-700">確定執行？</h3>
             <p id="confirm-desc" class="text-xs text-gray-400 mb-6">此動作無法還原。</p>
             <div class="flex gap-3">
                 <button id="confirm-cancel" class="flex-1 bg-gray-100 text-gray-600 py-3 rounded-xl font-bold">取消</button>
@@ -264,14 +285,14 @@
         </div>
     </div>
 
-    <!-- 新增支出項目 -->
-    <div id="expense-modal" class="fixed inset-0 z-[250] flex items-center justify-center bg-black/60 px-6 hidden">
+    <!-- 新增支出項目視窗 -->
+    <div id="expense-modal" class="fixed inset-0 flex items-center justify-center bg-black/60 px-6 hidden">
         <div class="bg-white w-full max-w-sm rounded-3xl p-8 shadow-2xl">
-            <div class="flex justify-between items-center mb-6"><h3 class="text-lg font-bold">新增支出</h3><button id="close-expense" class="text-gray-300 p-2">✕</button></div>
+            <div class="flex justify-between items-center mb-6"><h3 class="text-lg font-bold">新增支出項目</h3><button id="close-expense" class="text-gray-300 p-2">✕</button></div>
             <div class="space-y-5">
-                <input type="text" id="exp-title" class="w-full bg-gray-50 border rounded-xl p-4 outline-none" placeholder="項目內容">
+                <input type="text" id="exp-title" class="w-full bg-gray-50 border rounded-xl p-4 outline-none" placeholder="項目 (如：午餐)">
                 <input type="number" id="exp-amount" class="w-full bg-gray-50 border rounded-xl p-4 outline-none" placeholder="金額">
-                <button id="submit-expense" class="w-full bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg">儲存並同步</button>
+                <button id="submit-expense" class="w-full bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg active:scale-95 transition-transform">儲存並同步</button>
             </div>
         </div>
     </div>
@@ -303,13 +324,6 @@
             return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
         };
 
-        const showConfirm = (title, desc, action) => {
-            document.getElementById('confirm-title').innerText = title;
-            document.getElementById('confirm-desc').innerText = desc;
-            document.getElementById('confirm-modal').classList.remove('hidden');
-            pendingAction = action;
-        };
-
         window.toggleBilling = (show) => {
             const o = document.getElementById('billing-overlay');
             if (show) { o.classList.remove('hidden'); setTimeout(() => o.classList.add('active'), 10); }
@@ -319,34 +333,34 @@
         window.joinSession = (name) => {
             localStorage.setItem('tainan_user_name', name);
             document.getElementById('name-modal').classList.add('hidden');
-            document.getElementById('user-display').innerText = `嗨 ${name}！連線成功`;
+            const display = document.getElementById('user-display');
+            if (display) display.innerText = `嗨 ${name}！連線成功`;
             listenToData();
         };
 
         window.requestDelete = (id) => {
-            showConfirm("確定刪除紀錄？", "紀錄將從雲端完全移除。", async () => {
+            document.getElementById('confirm-title').innerText = "確定刪除紀錄？";
+            document.getElementById('confirm-desc').innerText = "紀錄將從雲端完全移除。";
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            pendingAction = async () => {
                 if (!db) return;
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'expenses', id));
-            });
+            };
         };
 
         window.switchUser = () => {
-            showConfirm("更換使用者身分？", "確定後將重新開啟身分選擇視窗。", () => {
+            document.getElementById('confirm-title').innerText = "更換使用者身分？";
+            document.getElementById('confirm-desc').innerText = "確定後將重新開啟身分選擇視窗。";
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            pendingAction = () => {
                 localStorage.clear();
-                // 核心修復：先顯示 Modal，再強制重新加載
                 document.getElementById('name-modal').classList.remove('hidden');
-                document.getElementById('user-display').innerText = "連線中...";
                 setTimeout(() => location.reload(), 100);
-            });
+            };
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 切換按鈕
-            document.getElementById('switch-user-btn')?.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.switchUser();
-            });
-
+            document.getElementById('switch-user-btn')?.addEventListener('click', (e) => { e.preventDefault(); window.switchUser(); });
             document.getElementById('fab-trigger')?.addEventListener('click', () => window.toggleBilling(true));
             document.getElementById('close-billing')?.addEventListener('click', () => window.toggleBilling(false));
             document.getElementById('add-expense-btn')?.addEventListener('click', () => document.getElementById('expense-modal').classList.remove('hidden'));
@@ -364,12 +378,13 @@
                 const a = document.getElementById('exp-amount')?.value;
                 const n = localStorage.getItem('tainan_user_name');
                 if(!t || !a || !db) return;
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'expenses'), { title: t, amount: Number(a), userName: n, time: serverTimestamp() });
-                document.getElementById('exp-title').value = ''; document.getElementById('exp-amount').value = '';
-                document.getElementById('expense-modal').classList.add('hidden');
+                try {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'expenses'), { title: t, amount: Number(a), userName: n, time: serverTimestamp() });
+                    document.getElementById('exp-title').value = ''; document.getElementById('exp-amount').value = '';
+                    document.getElementById('expense-modal').classList.add('hidden');
+                } catch (e) { console.error(e); }
             });
 
-            // 身分選擇按鈕
             const optBox = document.getElementById('name-options');
             if (optBox) {
                 FIXED_FRIENDS.forEach(name => {
@@ -381,26 +396,21 @@
                 });
             }
 
-            // 初始化時的身分守衛
-            if (!localStorage.getItem('tainan_user_name')) {
-                document.getElementById('name-modal').classList.remove('hidden');
-            }
+            if (!localStorage.getItem('tainan_user_name')) document.getElementById('name-modal').classList.remove('hidden');
 
             updateWeather();
             
             try {
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
+                const appInstance = initializeApp(firebaseConfig);
+                auth = getAuth(appInstance);
+                db = getFirestore(appInstance);
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                         const saved = localStorage.getItem('tainan_user_name');
                         if (saved) {
                             document.getElementById('user-display').innerText = `嗨 ${saved}！連線成功`;
                             listenToData();
-                        } else {
-                            document.getElementById('name-modal').classList.remove('hidden');
-                        }
+                        } else document.getElementById('name-modal').classList.remove('hidden');
                     }
                 });
                 signInAnonymously(auth);
@@ -414,15 +424,22 @@
                 const container = document.getElementById('hourly-container');
                 if (!container) return;
                 container.innerHTML = '';
+                const now = new Date();
+                let startHour = 6;
+                if (now.getFullYear() === 2026 && now.getMonth() === 0 && now.getDate() === 1) {
+                    const currentHour = now.getHours();
+                    if (currentHour >= 6) startHour = currentHour + 1;
+                }
                 const getEmoji = (c) => c <= 1 ? '☀️' : (c <= 3 ? '🌤️' : (c <= 65 ? '🌧️' : '🌩️'));
-                for (let i = 6; i <= 24; i++) {
+                if (startHour > 24) { container.innerHTML = '<p class="text-xs opacity-70 py-4 w-full text-center">今日行程已結束</p>'; return; }
+                for (let i = startHour; i <= 24; i++) {
                     const temp = Math.round(data.hourly.temperature_2m[i]);
                     const div = document.createElement('div');
                     div.className = "min-w-[75px] flex flex-col items-center bg-white/20 p-3 rounded-2xl backdrop-blur-sm shrink-0";
                     div.innerHTML = `<span class="text-[10px] opacity-80">${String(i).padStart(2,'0')}:00</span><span class="text-xl mb-1">${getEmoji(data.hourly.weather_code[i])}</span><span class="text-sm font-bold">${temp}°</span><span class="text-[8px] opacity-70">${data.hourly.precipitation_probability[i]}%</span>`;
                     container.appendChild(div);
                 }
-                const nowHr = new Date().getHours();
+                const nowHr = now.getHours();
                 if(nowHr >= 6 && nowHr <= 24) {
                     document.getElementById('current-temp-main').innerText = `${Math.round(data.hourly.temperature_2m[nowHr])}°`;
                     document.getElementById('current-pop').innerText = `降雨 ${data.hourly.precipitation_probability[nowHr]}%`;
@@ -444,7 +461,6 @@
             const avg = total / 3;
             if (document.getElementById('total-amount')) document.getElementById('total-amount').innerText = `$${Math.round(total)}`;
             if (document.getElementById('average-amount')) document.getElementById('average-amount').innerText = `$${Math.round(avg)}`;
-
             const userPaid = {};
             FIXED_FRIENDS.forEach(n => userPaid[n] = 0);
             expenses.forEach(e => { if(userPaid[e.userName] !== undefined) userPaid[e.userName] += Number(e.amount); });
@@ -452,7 +468,7 @@
             if (myName) {
                 document.getElementById('my-report-card')?.classList.remove('hidden');
                 document.getElementById('report-paid').innerText = `你墊付了：$${Math.round(userPaid[myName])}`;
-                document.getElementById('report-share').innerText = `應付額：$${Math.round(avg)}`;
+                document.getElementById('report-share').innerText = `你的平均份額：$${Math.round(avg)}`;
                 const myNet = userPaid[myName] - avg;
                 const statusEl = document.getElementById('report-status');
                 if (statusEl) {
@@ -460,7 +476,6 @@
                     else if (myNet > 0) statusEl.innerText = `🙌 應收總額：$${Math.round(myNet)}`;
                     else statusEl.innerText = `💸 應付總額：$${Math.round(Math.abs(myNet))}`;
                 }
-
                 const balList = document.getElementById('balance-list');
                 if (balList) {
                     balList.innerHTML = '';
@@ -479,9 +494,18 @@
             if (expList) {
                 expList.innerHTML = expenses.length ? '' : '<p class="text-center text-[10px] text-gray-300 py-8">尚無紀錄</p>';
                 [...expenses].sort((a,b) => (b.time?.seconds || 0) - (a.time?.seconds || 0)).forEach(e => {
+                    const timeDisplay = e.time ? formatTaipeiTime(e.time) : "正在記錄時間...";
                     const div = document.createElement('div');
                     div.className = "flex justify-between items-center py-4 border-b border-gray-100 last:border-0";
-                    div.innerHTML = `<div class="flex-1"><p class="text-sm font-bold text-gray-800">${e.title}</p><p class="text-[10px] text-gray-400">由 ${e.userName} 墊付 · ${e.time ? formatTaipeiTime(e.time) : "..."}</p></div><div class="flex items-center gap-4"><p class="font-bold text-gray-800">$${e.amount}</p><button onclick="window.requestDelete('${e.id}')" class="text-red-500 bg-red-50 px-3 py-1 rounded-lg text-[10px] font-bold">刪除</button></div>`;
+                    div.innerHTML = `
+                        <div class="flex-1">
+                            <p class="text-sm font-bold text-gray-800">${e.title}</p>
+                            <p class="text-[10px] text-gray-400">由 ${e.userName} 墊付 · ${timeDisplay}</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <p class="font-bold text-gray-800">$${e.amount}</p>
+                            <button onclick="window.requestDelete('${e.id}')" class="text-red-500 bg-red-50 px-3 py-1 rounded-lg text-[10px] font-bold">刪除</button>
+                        </div>`;
                     expList.appendChild(div);
                 });
             }
@@ -489,3 +513,4 @@
     </script>
 </body>
 </html>
+
